@@ -1,0 +1,39 @@
+body {
+  background-color: #e6e6e6;
+}
+hr {
+  height:2px;
+  border-width:0;
+  background-color:gray;
+}
+b {
+  color: #ff9999;
+}
+div .panel-heading{
+  background-image: url('img/body.jpg');
+}
+div #teste{
+  color: white;
+}
+.affix {
+      top: 0;
+      width: 100%;
+      -webkit-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+      background-color: #006666;
+      border-color: gray;
+}
+.affix a {
+      color: #fff !important;
+      padding: 15px !important;
+      -webkit-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+}
+.affix-top a {
+   padding: 25px !important;
+}
+.affix + .container-fluid {
+   padding-top: 95px;
+}
+
+
