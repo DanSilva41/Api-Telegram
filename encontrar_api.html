@@ -1,0 +1,172 @@
+<html>
+<head>
+<!-- Nome: Danilo da Silva Pereira
+	 Matrícula: 201611250 -->	
+
+	 <!-- Requisição através da url colocada no input -->
+	<title>Encontrar Api</title>		
+	<meta charset="UTF-8"/>
+	<!-- Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Css -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+	.button {
+	  border-radius: 4px;
+	  background-color: #006666;
+	  border: none;
+	  color: #FFFFFF;
+	  text-align: center;
+	  font-size: 15px;
+	  padding: 0px;
+	  height: 25px;
+	  width: 70px;
+	  transition: all 0.5s;
+	  cursor: pointer;
+	  margin: 5px;
+	}
+
+	.button span {
+	  cursor: pointer;
+	  display: inline-block;
+	  position: relative;
+	  transition: 0.5s;
+	}
+
+	.button span:after {
+	  content: '»';
+	  position: absolute;
+	  opacity: 0;
+	  top: 0;
+	  right: -20px;
+	  transition: 0.5s;
+	}
+
+	.button:hover span {
+	  padding-right: 25px;
+	}
+
+	.button:hover span:after {
+	  opacity: 1;
+	  right: 0;
+	}
+</style>
+
+	<script>
+		function sendText() {
+			var text = document.getElementById('http').value;
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', text, true);
+			xhr.onload = function(e) {
+			var y = document.getElementById('teste');
+			y.innerHTML = " ";
+
+				if (this.status == 200) {
+		
+					var msg = this.responseText;
+					var jsonData = JSON.parse(msg);
+					var result = jsonData.result;
+				
+					var rLen = result.length -1;
+					var certo = rLen + 1;
+					if (certo == 1) {
+						document.title = "("+certo+")" + " mensagem oculta";
+					}
+					else{
+						document.title = "("+certo+")" + " mensagens";
+					}
+						if (rLen > 0) {
+							for(i=rLen; i > -1; i--){
+							var text = result[i].message.text;
+							var nome = result[i].message.from.first_name;
+							var sobrenome = result[i].message.from.last_name;
+							var data = result[i].message.date;
+
+								y.innerHTML = y.innerHTML+ "<li> <i>Data: "+convertData(data)+ "</i>  <br><b>" +nome+" " +sobrenome+ " </b>  :  "+text + "</li> <hr>" 
+
+							} //fechamento for 	
+						}//fechamento if
+				};//fechamento if
+			}//fechamento function(e)
+		
+			xhr.send();
+		}//fechamento fuction sendText()
+		
+		//Função para converter Data Json(usando Unix timestamp)
+		function converterData(UNIX_timestamp){
+				var a = new Date(UNIX_timestamp * 1000);
+				var months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+				var year = a.getFullYear();
+				var month = months[a.getMonth()];
+				var date = a.getDate();
+				var hour = a.getHours();
+				var min = +a.getMinutes();
+				var sec = a.getSeconds();
+				var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  			return time;
+		}
+		//Carregar página automaticamente e chamar function 'sendText'
+		setInterval(sendText,3000);				
+	</script>
+	
+</head>
+<body>
+
+<!-- Menu de navegação -->
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="10">
+  <div class="container-fluid">
+    <div class="navbar-header">
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="index.html">Integração JS</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="nav navbar-nav">
+      <li><a href="hellobot.html">HelloBot</a></li>
+      <li><a href="dansilvabot.html">@Dansilva41Bot</a></li>
+	  <li  class="active"><a href="encontrar_api.html">Encontrar Api</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="https://github.com/DanSilva41/Api-Telegram" target="_blank"><span class="glyphicon glyphicon-folder-open"></span> Arquivo Fonte</a></li>
+    </ul>
+  </div>
+ </div>
+</nav>
+
+<div class="container">
+<form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">API</label>
+      <div class="col-sm-10">
+      	<!-- Input para a url -->
+        <input class="form-control" id="http" type="text" placeholder="Ex: https://api.telegram.org/bot242158604:AAHsZgkHuWC4ZBP3eBNTvuX7_eITmIdunys/getUpdates">
+		<br>
+		<!-- Botão aplicando a função -->
+		<button class="button" onclick="sendText()"><span>Enviar </span></button>
+
+      </div>
+    </div>
+</form>
+</div>	
+			
+<center>
+  <h2>Mensagens<span class="glyphicon glyphicon-send"></span></h2>
+</center>
+  <!-- Painel de mensagens -->			
+  <div class="panel panel-default">
+    <div class="panel-heading">
+    	<div id="teste">
+    	
+    	</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
